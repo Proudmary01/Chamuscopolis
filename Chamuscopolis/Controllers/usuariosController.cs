@@ -50,10 +50,10 @@ namespace Chamuscopolis.Controllers
 
         // GET: api/usuarios/5
         [ResponseType(typeof(usuario))]
-        public async Task<IHttpActionResult> Getusuario(string json) //int id
+        public async Task<IHttpActionResult> Getusuario(string email) //int id
         {
-            JObject o = JObject.Parse(json);
-            string email = (string) o["correo"];
+            //JObject o = JObject.Parse(json);
+            //string email = (string) o["correo"];
 
             usuario usuario = db.usuarios.Where( x => (x.correo == email)).FirstOrDefault();
             if (usuario == null)
