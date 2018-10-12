@@ -102,9 +102,9 @@ namespace Chamuscopolis.Controllers
             {
                 reservacion.nombreTarjeta = (string)o["nombreTarjeta"];
                 reservacion.numeroTarjeta = (string)o["numeroTarjeta"];
-                reservacion.codigoSeguridad = (string)o["codigoSeguridad"];
-                reservacion.fechaExpiracion = (string)o["fechaExpiracion"];
-                reservacion.tipoTarjeta = (string)o["tipoTarjeta"];
+                reservacion.cvv = (int)o["codigoSeguridad"];
+                reservacion.fechaExp = (DateTime)o["fechaExpiracion"];
+                reservacion.tipoTarjeta = (int)o["tipoTarjeta"];
                 reservacion.monto = (decimal)o["monto"];
                 reservacion.idCancha = (int)o["idCancha"];
                 reservacion.horario = (string)o["idCancha"];
