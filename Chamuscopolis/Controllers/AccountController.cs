@@ -1,4 +1,14 @@
-﻿using System;
+﻿using Chamuscopolis.Models;
+using Chamuscopolis.Providers;
+using Chamuscopolis.Results;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Claims;
@@ -6,19 +16,11 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
-using Chamuscopolis.Models;
-using Chamuscopolis.Providers;
-using Chamuscopolis.Results;
+using System.Web.Http.Cors;
 
 namespace Chamuscopolis.Controllers
 {
+    //[EnableCors(origins: "*", headers: "*", methods: "*")]
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
@@ -321,8 +323,15 @@ namespace Chamuscopolis.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        public async Task<IHttpActionResult> Register(string json)
         {
+            JObject o = JObject.Parse(json);
+            RegisterBindingModel model = new RegisterBindingModel();
+
+            model.Email = (string) o["Email"];
+            model.Password = (string) o["Password"];
+            model.ConfirmPassword = (string) o["ConfirmPassword"];
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

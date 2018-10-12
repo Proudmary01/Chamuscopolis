@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1eba0769026448528b7e665a1127fe6e" Name="Diagram1">
+        <EntityTypeShape EntityType="prosgModel.cancha" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="prosgModel.hora" Width="1.5" PointX="3" PointY="1.75" />
+        <EntityTypeShape EntityType="prosgModel.horario" Width="1.5" PointX="5.25" PointY="5.5" />
+        <EntityTypeShape EntityType="prosgModel.reservacion" Width="1.5" PointX="8.25" PointY="4.75" />
+        <EntityTypeShape EntityType="prosgModel.sede" Width="1.5" PointX="0.75" PointY="5.125" />
+        <EntityTypeShape EntityType="prosgModel.usuario" Width="1.5" PointX="6" PointY="0.75" />
+        <AssociationConnector Association="prosgModel.fk_RESERVACION_CANCHA" />
+        <AssociationConnector Association="prosgModel.fk_RESERVACION_CANCHA1" />
+        <AssociationConnector Association="prosgModel.SEDE_idSEDE" />
+        <AssociationConnector Association="prosgModel.fk_RESERVACION_HORA" />
+        <AssociationConnector Association="prosgModel.fk_RESERVACION_USUARIO1" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
