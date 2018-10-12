@@ -94,9 +94,22 @@ namespace Chamuscopolis.Controllers
 
         // POST: api/reservacions
         [ResponseType(typeof(reservacion))]
-        public async Task<IHttpActionResult> Postreservacion(reservacion reservacion)
+        public async Task<IHttpActionResult> Postreservacion(string json)
         {
-            if (!ModelState.IsValid)
+            JObject o = JObject.Parse(json);
+            reservacions reservacion = new reservacions();
+            try
+            {
+                reservacion.nombreTarjeta = (string)o["nombreTarjeta"];
+                reservacion.numeroTarjeta = (string)o["numeroTarjeta"];
+                reservacion.codigoSeguridad = (string)o["codigoSeguridad"];
+                reservacion.fechaExpiracion = (string)o["fechaExpiracion"];
+                reservacion.tipoTarjeta = (string)o["tipoTarjeta"];
+                reservacion.monto = (decimal)o["monto"];
+                reservacion.idCancha = (int)o["idCancha"];
+                reservacion.horario = (string)o["idCancha"];
+            }
+            catch (Exception e)
             {
                 return BadRequest(ModelState);
             }
