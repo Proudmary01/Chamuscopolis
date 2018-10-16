@@ -83,14 +83,14 @@ namespace Chamuscopolis.Controllers
 
         // PUT: api/sedes/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> Putsede(int id, string json)
+        public async Task<IHttpActionResult> Putsede(int idComplejo, string body) 
         {
-            JObject o = JObject.Parse(json);
+            JObject o = JObject.Parse(body);
             sede Sede = new sede();
             try
             {
                 //Sede.idSEDE = (int)o["idComplejo"];
-                Sede.idSEDE = id;
+                Sede.idSEDE = idComplejo;
                 Sede.Nombre = (string) o["nombre"];
                 Sede.ciudad = (string)o["direccion"]["ciudad"];
                 Sede.calle = (string) o["direccion"]["calle"];
@@ -104,7 +104,7 @@ namespace Chamuscopolis.Controllers
                 return BadRequest(ModelState);
             }
             
-            if (id != Sede.idSEDE)
+            if (idComplejo != Sede.idSEDE)
             {
                 return BadRequest();
             }
@@ -117,7 +117,7 @@ namespace Chamuscopolis.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!sedeExists(id))
+                if (!sedeExists(idComplejo))
                 {
                     return NotFound();
                 }

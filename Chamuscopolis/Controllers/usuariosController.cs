@@ -15,7 +15,6 @@ using Newtonsoft.Json.Linq;
 
 namespace Chamuscopolis.Controllers
 {
-    //[EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("")]
     public class usuariosController : ApiController
     {
@@ -83,9 +82,11 @@ namespace Chamuscopolis.Controllers
 
         // PUT: api/usuarios/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> Putusuario(int id, string json)
+        [HttpPut]
+        public async Task<IHttpActionResult> Putusuario(string body) //int id, 
         {
-            JObject o = JObject.Parse(json);
+            JObject o = JObject.Parse(body);
+            string email = (string)o["email"];
             usuario Usuario = new usuario();
 
             try
@@ -108,7 +109,7 @@ namespace Chamuscopolis.Controllers
             }
 
 
-            if (id != Usuario.idUSUARIO)
+            if (email != Usuario.correo)
             {
                 return BadRequest();
             }
@@ -121,7 +122,7 @@ namespace Chamuscopolis.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!usuarioExists(id))
+                if (!usuarioExists(email))
                 {
                     return NotFound();
                 }
@@ -169,9 +170,9 @@ namespace Chamuscopolis.Controllers
 
         // DELETE: api/usuarios/5
         [ResponseType(typeof(usuario))]
-        public async Task<IHttpActionResult> Deleteusuario(int id)
+        public async Task<IHttpActionResult> Deleteusuario(string email)
         {
-            usuario usuario = await db.usuarios.FindAsync(id);
+            usuario usuario =  db.usuarios.FirstOrDefault(x => x.correo == email);
             if (usuario == null)
             {
                 return NotFound();
@@ -192,9 +193,9 @@ namespace Chamuscopolis.Controllers
             base.Dispose(disposing);
         }
 
-        private bool usuarioExists(int id)
+        private bool usuarioExists(string email)
         {
-            return db.usuarios.Count(e => e.idUSUARIO == id) > 0;
+            return db.usuarios.Count(e => e.correo == email) > 0;
         }
     }
 }

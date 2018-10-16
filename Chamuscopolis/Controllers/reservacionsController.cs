@@ -11,6 +11,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using Chamuscopolis.Models;
+using Newtonsoft.Json.Linq;
 
 namespace Chamuscopolis.Controllers
 {
@@ -97,17 +98,17 @@ namespace Chamuscopolis.Controllers
         public async Task<IHttpActionResult> Postreservacion(string json)
         {
             JObject o = JObject.Parse(json);
-            reservacions reservacion = new reservacions();
+            reservacion reservacion = new reservacion();
             try
             {
                 reservacion.nombreTarjeta = (string)o["nombreTarjeta"];
                 reservacion.numeroTarjeta = (string)o["numeroTarjeta"];
                 reservacion.cvv = (int)o["codigoSeguridad"];
                 reservacion.fechaExp = (DateTime)o["fechaExpiracion"];
-                reservacion.tipoTarjeta = (int)o["tipoTarjeta"];
+                reservacion.tipotarjeta = (int)o["tipoTarjeta"];
                 reservacion.monto = (decimal)o["monto"];
-                reservacion.idCancha = (int)o["idCancha"];
-                reservacion.horario = (string)o["idCancha"];
+                reservacion.CANCHA_idCANCHA = (int)o["idCancha"];
+                reservacion.hora = (string)o["horario"];
             }
             catch (Exception e)
             {
