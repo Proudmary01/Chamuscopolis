@@ -22,6 +22,7 @@ namespace Chamuscopolis.Controllers
         private prosgEntities db = new prosgEntities();
 
         // GET: api/reservacions
+        [Route]
         public IQueryable<reservacion> Getreservacions()
         {
             return db.reservacions;
@@ -29,6 +30,7 @@ namespace Chamuscopolis.Controllers
 
         // GET: api/reservacions/cancha/
         [ResponseType(typeof(reservacion))]
+        [Route]
         public async Task<IHttpActionResult> Getreservacion(int id)
         {
             reservacion reservacion = await db.reservacions.FindAsync(id);
@@ -42,16 +44,27 @@ namespace Chamuscopolis.Controllers
 
         // GET: api/reservacions/5
         [ResponseType(typeof(reservacion))]
+        [Route]
         public IHttpActionResult GetHorariosReservados(int idCancha, string fecha)
         {
             List<string> horas = new List<string>();
-            List<reservacion> reservaciones = db.reservacions.Where(reser => (reser.CANCHA_idCANCHA == idCancha && reser.fecha.ToString() == fecha)).ToList();
-            if (reservaciones.Count == 0)
+            List<reservacion> reservaciones = db.reservacions.Where(reser => reser.CANCHA_idCANCHA == idCancha ).ToList();
+            List<reservacion> resFiltro = new List<reservacion>();
+
+            foreach (reservacion reservacion in reservaciones)
+            {
+                if (reservacion.fecha.Substring(0, 10) == fecha)
+                { 
+                    resFiltro.Add(reservacion);
+                }
+            }
+
+            if (resFiltro.Count == 0)
             {
                 return Ok(horas);
             }
 
-            foreach (reservacion r in reservaciones)
+            foreach (reservacion r in resFiltro)
             {
                 horas.Add(r.hora.ToString());
             }
@@ -60,6 +73,7 @@ namespace Chamuscopolis.Controllers
 
         // PUT: api/reservacions/5
         [ResponseType(typeof(void))]
+        [Route]
         public async Task<IHttpActionResult> Putreservacion(int id, reservacion reservacion)
         {
             if (!ModelState.IsValid)
@@ -95,20 +109,21 @@ namespace Chamuscopolis.Controllers
 
         // POST: api/reservacions
         [ResponseType(typeof(reservacion))]
+        [Route]
         public async Task<IHttpActionResult> Postreservacion(string json)
         {
             JObject o = JObject.Parse(json);
             reservacion reservacion = new reservacion();
+
             try
             {
-                reservacion.nombreTarjeta = (string)o["nombreTarjeta"];
-                reservacion.numeroTarjeta = (string)o["numeroTarjeta"];
-                reservacion.cvv = (int)o["codigoSeguridad"];
-                reservacion.fechaExp = (DateTime)o["fechaExpiracion"];
-                reservacion.tipotarjeta = (int)o["tipoTarjeta"];
                 reservacion.monto = (decimal)o["monto"];
                 reservacion.CANCHA_idCANCHA = (int)o["idCancha"];
-                reservacion.hora = (string)o["horario"];
+                reservacion.cancha = db.canchas.FirstOrDefault(x => x.idCANCHA == reservacion.CANCHA_idCANCHA);
+                reservacion.USUARIO_idUSUARIO = (int)o["idUsuario"];
+                reservacion.usuario = db.usuarios.FirstOrDefault(x => x.idUSUARIO == reservacion.USUARIO_idUSUARIO);
+                reservacion.hora = (string)o["fecha"];
+                reservacion.fecha = (string)o["fecha"];
             }
             catch (Exception e)
             {
@@ -121,8 +136,9 @@ namespace Chamuscopolis.Controllers
             {
                 await db.SaveChangesAsync();
             }
-            catch (DbUpdateException)
+            catch (Exception ex)
             {
+                var n = ex;
                 if (reservacionExists(reservacion.idRESERVACION))
                 {
                     return Conflict();
@@ -138,6 +154,7 @@ namespace Chamuscopolis.Controllers
 
         // DELETE: api/reservacions/5
         [ResponseType(typeof(reservacion))]
+        [Route]
         public async Task<IHttpActionResult> Deletereservacion(int id)
         {
             reservacion reservacion = await db.reservacions.FindAsync(id);

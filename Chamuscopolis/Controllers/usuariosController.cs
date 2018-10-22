@@ -21,6 +21,7 @@ namespace Chamuscopolis.Controllers
         private prosgEntities db = new prosgEntities();
 
         // GET: api/usuarios
+        [Route]
         public List<JObject> Getusuarios()
         {
             List<JObject> _usuarios = new List<JObject>();
@@ -49,12 +50,13 @@ namespace Chamuscopolis.Controllers
 
         // GET: api/usuarios/5
         [ResponseType(typeof(usuario))]
+        [Route]
         public async Task<IHttpActionResult> Getusuario(string email) //int id
         {
             //JObject o = JObject.Parse(json);
             //string email = (string) o["correo"];
 
-            usuario usuario = db.usuarios.Where( x => (x.correo == email)).FirstOrDefault();
+            usuario usuario = db.usuarios.FirstOrDefault(x => (x.correo == email));
             if (usuario == null)
             {
                 return NotFound();
@@ -62,6 +64,7 @@ namespace Chamuscopolis.Controllers
 
             JObject _usuario = JObject.FromObject(new
             {
+                id = usuario.idUSUARIO,
                 dpi = usuario.DPI,
                 nombre = usuario.Nombre,
                 apellido = usuario.Apellido,
@@ -82,7 +85,7 @@ namespace Chamuscopolis.Controllers
 
         // PUT: api/usuarios/5
         [ResponseType(typeof(void))]
-        [HttpPut]
+        [Route]
         public async Task<IHttpActionResult> Putusuario(string body) //int id, 
         {
             JObject o = JObject.Parse(body);
@@ -137,9 +140,10 @@ namespace Chamuscopolis.Controllers
 
         // POST: api/usuarios
         [ResponseType(typeof(usuario))]
-        public async Task<IHttpActionResult> Postusuario(string json)
+        [Route]
+        public async Task<IHttpActionResult> Postusuario(string body)
         {
-            JObject o = JObject.Parse(json);
+            JObject o = JObject.Parse(body);
             usuario Usuario = new usuario();
 
             try
@@ -170,6 +174,7 @@ namespace Chamuscopolis.Controllers
 
         // DELETE: api/usuarios/5
         [ResponseType(typeof(usuario))]
+        [Route]
         public async Task<IHttpActionResult> Deleteusuario(string email)
         {
             usuario usuario =  db.usuarios.FirstOrDefault(x => x.correo == email);

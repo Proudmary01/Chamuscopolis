@@ -15,16 +15,11 @@ namespace Chamuscopolis.Models
     public partial class reservacion
     {
         public int idRESERVACION { get; set; }
-        public string nombreTarjeta { get; set; }
-        public string numeroTarjeta { get; set; }
-        public int cvv { get; set; }
-        public System.DateTime fechaExp { get; set; }
-        public int tipotarjeta { get; set; }
+        public string fecha { get; set; }
+        public string hora { get; set; }
         public decimal monto { get; set; }
         public int CANCHA_idCANCHA { get; set; }
-        public string fecha { get; set; }
         public int USUARIO_idUSUARIO { get; set; }
-        public string hora { get; set; }
     
         public virtual cancha cancha { get; set; }
         public virtual usuario usuario { get; set; }

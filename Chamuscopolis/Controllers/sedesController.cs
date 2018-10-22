@@ -15,13 +15,13 @@ using Newtonsoft.Json.Linq;
 
 namespace Chamuscopolis.Controllers
 {
-    //[EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("")]
     public class sedesController : ApiController
     {
         private prosgEntities db = new prosgEntities();
 
         // GET: api/sedes
+        [Route]
         public List<JObject> Getsedes()
         {
             db.Configuration.ProxyCreationEnabled = false;
@@ -52,6 +52,7 @@ namespace Chamuscopolis.Controllers
 
         // GET: api/sedes/5
         [ResponseType(typeof(sede))]
+        [Route]
         public async Task<IHttpActionResult> Getsede(int id)
         {
             sede sede = await db.sedes.FindAsync(id);
@@ -83,21 +84,22 @@ namespace Chamuscopolis.Controllers
 
         // PUT: api/sedes/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> Putsede(int idComplejo, string body) 
+        [Route]
+        public async Task<IHttpActionResult> Putsede(string body) 
         {
             JObject o = JObject.Parse(body);
+            int idComplejo = (int)o["idComplejo"];
             sede Sede = new sede();
             try
             {
-                //Sede.idSEDE = (int)o["idComplejo"];
-                Sede.idSEDE = idComplejo;
-                Sede.Nombre = (string) o["nombre"];
-                Sede.ciudad = (string)o["direccion"]["ciudad"];
-                Sede.calle = (string) o["direccion"]["calle"];
-                Sede.avenida = (string) o["direccion"]["avenida"];
-                Sede.lat = (decimal) o["direccion"]["geo"]["lat"];
-                Sede.lng = (decimal) o["direccion"]["geo"]["lng"];
-                Sede.email = (string) o["email"];
+                Sede.idSEDE = (int)o["idComplejo"];
+                Sede.Nombre = (string)o["nombre"];
+                Sede.ciudad = (string)o["ciudad"];
+                Sede.calle = (string)o["calle"];
+                Sede.avenida = (string)o["avenida"];
+                Sede.lat = (decimal)o["latitud"];
+                Sede.lng = (decimal)o["longitud"];
+                Sede.email = (string)o["email"];
             }
             catch (Exception e)
             {
@@ -132,19 +134,20 @@ namespace Chamuscopolis.Controllers
 
         // POST: api/sedes
         [ResponseType(typeof(sede))]
-        public async Task<IHttpActionResult> Postsede(string json)
+        [Route]
+        public async Task<IHttpActionResult> Postsede(string body)
         {
-            JObject o = JObject.Parse(json);
+            JObject o = JObject.Parse(body);
             sede Sede = new sede();
             try
             {
                 //Sede.idSEDE = (int)o["idComplejo"];
                 Sede.Nombre = (string)o["nombre"];
-                Sede.ciudad = (string)o["direccion"]["ciudad"];
-                Sede.calle = (string)o["direccion"]["calle"];
-                Sede.avenida = (string)o["direccion"]["avenida"];
-                Sede.lat = (decimal)o["direccion"]["geo"]["lat"];
-                Sede.lng = (decimal)o["direccion"]["geo"]["lng"];
+                Sede.ciudad = (string)o["ciudad"];
+                Sede.calle = (string)o["calle"];
+                Sede.avenida = (string)o["avenida"];
+                Sede.lat = (decimal)o["latitud"];
+                Sede.lng = (decimal)o["longitud"];
                 Sede.email = (string)o["email"];
             }
             catch (Exception e)
@@ -175,11 +178,12 @@ namespace Chamuscopolis.Controllers
 
         // DELETE: api/sedes/5
         [ResponseType(typeof(sede))]
-        public async Task<IHttpActionResult> Deletesede(string json)
+        [Route]
+        public async Task<IHttpActionResult> Deletesede(int idComplejo)
         {
-            JObject o = JObject.Parse(json);
-            int id = (int) o["idComplejo"];
-            sede sede = await db.sedes.FindAsync(id);
+            //JObject o = JObject.Parse(body);
+            //int id = (int) o["idComplejo"];
+            sede sede = db.sedes.FirstOrDefault(x => x.idSEDE == idComplejo);
             if (sede == null)
             {
                 return NotFound();

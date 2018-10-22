@@ -37,16 +37,11 @@
             <PropertyRef Name="idRESERVACION" />
           </Key>
           <Property Name="idRESERVACION" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nombreTarjeta" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="numeroTarjeta" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="cvv" Type="int" Nullable="false" />
-          <Property Name="fechaExp" Type="date" Nullable="false" />
-          <Property Name="tipotarjeta" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="hora" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="monto" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="CANCHA_idCANCHA" Type="int" Nullable="false" />
-          <Property Name="fecha" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="USUARIO_idUSUARIO" Type="int" Nullable="false" />
-          <Property Name="hora" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <EntityType Name="sede">
           <Key>
@@ -77,6 +72,7 @@
           <Property Name="password" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="tipo" Type="tinyint" Nullable="false" />
           <Property Name="estado" Type="tinyint" Nullable="false" />
+          <Property Name="esAdmin" Type="tinyint" />
         </EntityType>
         <Association Name="fk_RESERVACION_CANCHA">
           <End Role="cancha" Type="Self.cancha" Multiplicity="1" />
@@ -91,7 +87,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_RESERVACION_CANCHA1">
-          <End Role="cancha" Type="Self.cancha" Multiplicity="1" />
+          <End Role="cancha" Type="Self.cancha" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="reservacion" Type="Self.reservacion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="cancha">
@@ -115,7 +113,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_RESERVACION_USUARIO1">
-          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="reservacion" Type="Self.reservacion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="usuario">
@@ -127,7 +127,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="SEDE_idSEDE">
-          <End Role="sede" Type="Self.sede" Multiplicity="1" />
+          <End Role="sede" Type="Self.sede" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="cancha" Type="Self.cancha" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="sede">
@@ -236,16 +238,11 @@
             <PropertyRef Name="idRESERVACION" />
           </Key>
           <Property Name="idRESERVACION" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombreTarjeta" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="numeroTarjeta" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="cvv" Type="Int32" Nullable="false" />
-          <Property Name="fechaExp" Type="DateTime" Nullable="false" />
-          <Property Name="tipotarjeta" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="hora" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="monto" Type="Decimal" Nullable="false" />
           <Property Name="CANCHA_idCANCHA" Type="Int32" Nullable="false" />
-          <Property Name="fecha" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="USUARIO_idUSUARIO" Type="Int32" Nullable="false" />
-          <Property Name="hora" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="cancha" Relationship="prosgModel.fk_RESERVACION_CANCHA1" FromRole="reservacion" ToRole="cancha" />
           <NavigationProperty Name="usuario" Relationship="prosgModel.fk_RESERVACION_USUARIO1" FromRole="reservacion" ToRole="usuario" />
         </EntityType>
@@ -279,6 +276,7 @@
           <Property Name="password" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="tipo" Type="SByte" Nullable="false" />
           <Property Name="estado" Type="SByte" Nullable="false" />
+          <Property Name="esAdmin" Type="SByte" />
           <NavigationProperty Name="reservacions" Relationship="prosgModel.fk_RESERVACION_USUARIO1" FromRole="usuario" ToRole="reservacion" />
         </EntityType>
         <Association Name="fk_RESERVACION_CANCHA">
@@ -294,7 +292,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_RESERVACION_CANCHA1">
-          <End Type="prosgModel.cancha" Role="cancha" Multiplicity="1" />
+          <End Type="prosgModel.cancha" Role="cancha" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="prosgModel.reservacion" Role="reservacion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="cancha">
@@ -306,7 +306,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="SEDE_idSEDE">
-          <End Type="prosgModel.sede" Role="sede" Multiplicity="1" />
+          <End Type="prosgModel.sede" Role="sede" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="prosgModel.cancha" Role="cancha" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="sede">
@@ -330,7 +332,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_RESERVACION_USUARIO1">
-          <End Type="prosgModel.usuario" Role="usuario" Multiplicity="1" />
+          <End Type="prosgModel.usuario" Role="usuario" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="prosgModel.reservacion" Role="reservacion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="usuario">
@@ -380,16 +384,11 @@
           <EntitySetMapping Name="reservacions">
             <EntityTypeMapping TypeName="prosgModel.reservacion">
               <MappingFragment StoreEntitySet="reservacion">
-                <ScalarProperty Name="hora" ColumnName="hora" />
                 <ScalarProperty Name="USUARIO_idUSUARIO" ColumnName="USUARIO_idUSUARIO" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="CANCHA_idCANCHA" ColumnName="CANCHA_idCANCHA" />
                 <ScalarProperty Name="monto" ColumnName="monto" />
-                <ScalarProperty Name="tipotarjeta" ColumnName="tipotarjeta" />
-                <ScalarProperty Name="fechaExp" ColumnName="fechaExp" />
-                <ScalarProperty Name="cvv" ColumnName="cvv" />
-                <ScalarProperty Name="numeroTarjeta" ColumnName="numeroTarjeta" />
-                <ScalarProperty Name="nombreTarjeta" ColumnName="nombreTarjeta" />
+                <ScalarProperty Name="hora" ColumnName="hora" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="idRESERVACION" ColumnName="idRESERVACION" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -411,6 +410,7 @@
           <EntitySetMapping Name="usuarios">
             <EntityTypeMapping TypeName="prosgModel.usuario">
               <MappingFragment StoreEntitySet="usuario">
+                <ScalarProperty Name="esAdmin" ColumnName="esAdmin" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="tipo" ColumnName="tipo" />
                 <ScalarProperty Name="password" ColumnName="password" />

@@ -32,6 +32,7 @@ namespace Chamuscopolis.Models
         public string password { get; set; }
         public sbyte tipo { get; set; }
         public sbyte estado { get; set; }
+        public Nullable<sbyte> esAdmin { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<reservacion> reservacions { get; set; }

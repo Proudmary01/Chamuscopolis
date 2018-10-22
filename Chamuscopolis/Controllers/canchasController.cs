@@ -22,6 +22,7 @@ namespace Chamuscopolis.Controllers
         private prosgEntities db = new prosgEntities();
 
         // GET: api/canchas
+        [Route]
         public List<JObject> Getcanchas(int idComplejo)
         {
             db.Configuration.ProxyCreationEnabled = false;
@@ -47,6 +48,7 @@ namespace Chamuscopolis.Controllers
 
         // GET: api/canchas/5
         [ResponseType(typeof(cancha))]
+        [Route]
         public async Task<IHttpActionResult> Getcancha(int id_complejo, int id_cancha)
         {
             cancha cancha = await db.canchas.FindAsync(id_complejo, id_cancha);
@@ -70,6 +72,7 @@ namespace Chamuscopolis.Controllers
 
         // PUT: api/canchas/5
         [ResponseType(typeof(void))]
+        [Route]
         public async Task<IHttpActionResult> Putcancha(int id, string json)
         {
             JObject o = JObject.Parse(json);
@@ -118,6 +121,7 @@ namespace Chamuscopolis.Controllers
 
         // POST: api/canchas
         [ResponseType(typeof(cancha))]
+        [Route]
         public async Task<IHttpActionResult> Postcancha(string json)
         {
             JObject o = JObject.Parse(json);
@@ -161,6 +165,7 @@ namespace Chamuscopolis.Controllers
 
         // DELETE: api/canchas/5
         [ResponseType(typeof(cancha))]
+        [Route]
         public async Task<IHttpActionResult> Deletecancha(int id)
         {
             cancha cancha = await db.canchas.FindAsync(id);

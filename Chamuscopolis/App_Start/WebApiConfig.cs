@@ -20,7 +20,7 @@ namespace Chamuscopolis
             // Web API routes
             config.EnableCors();
 
-            config.MapHttpAttributeRoutes();
+            //config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
