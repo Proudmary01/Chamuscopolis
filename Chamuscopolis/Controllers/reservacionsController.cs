@@ -148,7 +148,7 @@ namespace Chamuscopolis.Controllers
                     throw;
                 }
             }
-
+            //Aqui va el envio de un correo.
             return CreatedAtRoute("DefaultApi", new { id = reservacion.idRESERVACION }, reservacion);
         }
 
