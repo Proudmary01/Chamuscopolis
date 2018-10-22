@@ -153,12 +153,12 @@ namespace Chamuscopolis.Controllers
                 }
             }
             //Aqui va el envio de un correo.
-            Execute().Wait();
+            Execute();
             return CreatedAtRoute("DefaultApi", new { id = reservacion.idRESERVACION }, reservacion);
         }
 
         // send email method
-        static async Task Execute()
+        static void Execute()
         {
             var apiKey = Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
             var client = new SendGridClient(apiKey);
@@ -168,7 +168,7 @@ namespace Chamuscopolis.Controllers
             var plainTextContent = "and easy to do anywhere, even with C#";
             var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            var response = await client.SendEmailAsync(msg);
+            var response = client.SendEmailAsync(msg);
         }
 
         // DELETE: api/reservacions/5
