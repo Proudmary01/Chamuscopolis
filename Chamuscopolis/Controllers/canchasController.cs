@@ -166,9 +166,9 @@ namespace Chamuscopolis.Controllers
         // DELETE: api/canchas/5
         [ResponseType(typeof(cancha))]
         [Route]
-        public async Task<IHttpActionResult> Deletecancha(int id)
+        public async Task<IHttpActionResult> Deletecancha(int idSede, int idCancha)
         {
-            cancha cancha = await db.canchas.FindAsync(id);
+            cancha cancha = db.canchas.FirstOrDefault(x => (x.SEDE_idSEDE == idSede && x.idCANCHA == idCancha));
             if (cancha == null)
             {
                 return NotFound();
