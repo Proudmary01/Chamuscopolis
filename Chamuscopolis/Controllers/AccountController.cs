@@ -21,7 +21,7 @@ using System.Web.Http.Cors;
 namespace Chamuscopolis.Controllers
 {
     //[EnableCors(origins: "*", headers: "*", methods: "*")]
-    [Authorize]
+    //[Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
@@ -346,7 +346,10 @@ namespace Chamuscopolis.Controllers
                 return GetErrorResult(result);
             }
 
-            return Ok();
+            return Ok(JObject.FromObject(new
+            {
+                Token = model.Password.GetHashCode()
+            }));
         }
 
         // POST api/Account/RegisterExternal
