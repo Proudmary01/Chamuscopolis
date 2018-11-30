@@ -75,6 +75,38 @@ namespace Chamuscopolis.Controllers
             return Ok(horas);
         }
 
+        public IHttpActionResult GetSedesReservadas(int idComplejo)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<JObject> _reservaciones = new List<JObject>();
+
+            List<cancha> canchasSede = db.canchas.Where(x => x.SEDE_idSEDE == idComplejo).ToList();
+            List<reservacion> reservaciones = new List<reservacion>();
+
+            foreach (var c in canchasSede)
+            {
+                 reservaciones.AddRange(db.reservacions.Where(reser => reser.CANCHA_idCANCHA == c.idCANCHA));
+            }
+
+            foreach (var _res in reservaciones)
+            {
+                _reservaciones.Add(JObject.FromObject(new
+                {
+                    id = _res.idRESERVACION,
+                    fecha = _res.fecha,
+                    hora = _res.hora,
+                    monto = _res.monto,
+                    idCancha = _res.CANCHA_idCANCHA,
+                    idComplejo = idComplejo,
+                    idUsuario = _res.USUARIO_idUSUARIO
+                }));
+            }
+
+
+
+            return Ok(_reservaciones);
+        }
+
         // PUT: api/reservacions/5
         [ResponseType(typeof(void))]
         [Route]
